@@ -30,7 +30,9 @@ class BurgerBuilder extends Component {
       const prevIngredients = prevState.ingredients[type];
       const updatedIngredients = {...prevState.ingredients};
       updatedIngredients[type] = prevIngredients + amt;
-      return {ingredients:updatedIngredients};
+      return {
+        totalPrice:prevState.totalPrice + INGREDIENT_PRICES[type]*amt,
+        ingredients:updatedIngredients};
     });
   }
 
@@ -38,7 +40,7 @@ class BurgerBuilder extends Component {
    return(
      <Aux>
        <Burger ingredients={this.state.ingredients}/>
-       <BuildControls ingredientAdjusted={this.adjustIngredientsHandler.bind(this)} ingredientTotals={this.state.ingredients}/>
+       <BuildControls ingredientAdjusted={this.adjustIngredientsHandler.bind(this)} ingredientTotals={this.state.ingredients} totalPrice={this.state.totalPrice}/>
      </Aux>
      );
   }
