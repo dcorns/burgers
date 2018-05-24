@@ -4,4 +4,22 @@
  * Copyright © 2018 Dale Corns
  * MIT Licensed
  */
-'use strict';
+import React from 'react';
+import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
+import classes from './Burger.css';
+const burger = (props) => {
+  const transformedIngredients = Object.keys(props.ingredients)
+    .map((e) => {
+      return [...Array(props.ingredients[e])]
+        .map((_,idx) => {
+          return <BurgerIngredient key={e+idx} type={e}/>;
+        });
+    }).reduce((acc,el) => [...acc,...el]);
+  console.log(transformedIngredients);
+  return (<div className={classes.Burger}>
+    <BurgerIngredient type={'bread-top'}/>
+    {transformedIngredients}
+    <BurgerIngredient type={'bread-bottom'}/>
+  </div>);
+};
+export default burger;
