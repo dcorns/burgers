@@ -14,8 +14,7 @@ const burger = (props) => {
         .map((_,idx) => {
           return <BurgerIngredient key={e+idx} type={e}/>;
         });
-    }).reduce((acc,el) => [...acc,...el]);
-  console.log(transformedIngredients);
+    }).reduce((acc,el) => [...acc,...el],[]);
   if(transformedIngredients.length < 1) transformedIngredients = <p>Add some ingredients.</p>;
   return (<div className={classes.Burger}>
     <BurgerIngredient type={'bread-top'}/>
