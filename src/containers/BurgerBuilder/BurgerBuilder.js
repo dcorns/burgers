@@ -48,7 +48,7 @@ class BurgerBuilder extends Component {
   }
 
   continueHandler(){
-    return null
+    return alert('continue');
   }
 
   render(){
@@ -57,7 +57,7 @@ class BurgerBuilder extends Component {
        <Burger ingredients={this.state.ingredients}/>
        <BuildControls ingredientAdjusted={this.adjustIngredientsHandler.bind(this)} ingredientTotals={this.state.ingredients} totalPrice={this.state.totalPrice} orderNow={this.orderNowHandler.bind(this)}/>
        <Modal show={this.state.showOrder} modalClosed={this.cancelHandler.bind(this)}>
-         <OrderSummary ingredients={this.state.ingredients} prices={INGREDIENT_PRICES} total={this.state.totalPrice} cancel={this.cancelHandler.bind(this)} continue={this.continueHandler.bind(this)}/>
+         <OrderSummary ingredients={this.state.ingredients} purchaseCancelled={this.cancelHandler.bind(this)} purchaseContinued={this.continueHandler.bind(this)} prices={INGREDIENT_PRICES} total={this.state.totalPrice} cancel={this.cancelHandler.bind(this)} continue={this.continueHandler.bind(this)}/>
        </Modal>
      </Aux>
      );

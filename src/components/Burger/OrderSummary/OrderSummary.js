@@ -6,6 +6,7 @@
  */
 import React from 'react';
 import Aux from '../../../hoc/Aux';
+import Button from '../../../components/Button/Button';
 const orderSummary = (props) => {
   const orderSummary = Object.keys(props.ingredients).map((ingKey,idx) => {
     if(props.ingredients[ingKey]) return <li key={ingKey+idx}><span style={{textTransform:'capitalize',margin:'auto'}}>{ingKey}</span>   <span style={{margin:'auto'}}>{props.ingredients[ingKey]}</span>   <span style={{margin:'auto'}}>{(props.prices[ingKey] * props.ingredients[ingKey]).toFixed(2)}</span></li>;
@@ -18,10 +19,10 @@ const orderSummary = (props) => {
       <ul>
         {orderSummary}
       </ul>
-      <strong>Total:{props.total.toFixed(2)}</strong>
+      <strong>Total:${props.total.toFixed(2)}</strong>
       <p>Continue to Checkout</p>
-      <button onClick={props.cancel}>CANCEL</button>
-      <button onClick={props.continue}>CONTINUE</button>
+      <Button clicked={props.purchaseCancelled} btnType="Danger">CANCEL</Button>
+      <Button clicked={props.purchaseContinued} btnType="Success">CONTINUE</Button>
     </Aux>
   );
 };
