@@ -6,10 +6,12 @@
  */
 import React from 'react';
 import classes from './ToolBar.css';
+import Logo from '../../../components/Logo/Logo';
 const toolBar = (props) => (
   <header className={classes.ToolBar}>
+
     <div>MENU</div>
-    <div>LOGO</div>
+    <Logo/>
     <nav>
       ...
     </nav>
