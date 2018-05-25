@@ -25,6 +25,7 @@ class BurgerBuilder extends Component {
       meat:0,
     },
     totalPrice: 1,
+    showOrder:false,
   };
 
   adjustIngredientsHandler(type,amt){
@@ -38,13 +39,25 @@ class BurgerBuilder extends Component {
     });
   }
 
+  orderNowHandler(){
+    this.setState({showOrder:true});
+  }
+
+  cancelHandler(){
+    this.setState({showOrder:false});
+  }
+
+  continueHandler(){
+    return null
+  }
+
   render(){
    return(
      <Aux>
        <Burger ingredients={this.state.ingredients}/>
-       <BuildControls ingredientAdjusted={this.adjustIngredientsHandler.bind(this)} ingredientTotals={this.state.ingredients} totalPrice={this.state.totalPrice}/>
-       <Modal>
-         <OrderSummary ingredients={this.state.ingredients} prices={INGREDIENT_PRICES} total={this.state.totalPrice}/>
+       <BuildControls ingredientAdjusted={this.adjustIngredientsHandler.bind(this)} ingredientTotals={this.state.ingredients} totalPrice={this.state.totalPrice} orderNow={this.orderNowHandler.bind(this)}/>
+       <Modal show={this.state.showOrder} modalClosed={this.cancelHandler.bind(this)}>
+         <OrderSummary ingredients={this.state.ingredients} prices={INGREDIENT_PRICES} total={this.state.totalPrice} cancel={this.cancelHandler.bind(this)} continue={this.continueHandler.bind(this)}/>
        </Modal>
      </Aux>
      );

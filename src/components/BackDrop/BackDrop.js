@@ -5,8 +5,8 @@
  * MIT Licensed
  */
 import React from 'react';
-
+import classes from './BackDrop.css';
 const backDrop = (props) => (
-  <div></div>
+  props.show && <div className={classes.BackDrop} onClick={props.remove}></div>
 );
 export default backDrop;

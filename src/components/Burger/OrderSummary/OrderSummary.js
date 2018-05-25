@@ -8,7 +8,8 @@ import React from 'react';
 import Aux from '../../../hoc/Aux';
 const orderSummary = (props) => {
   const orderSummary = Object.keys(props.ingredients).map((ingKey,idx) => {
-    return <li key={ingKey+idx}>{ingKey}   {props.ingredients[ingKey].toFixed(2)}   {(props.prices[ingKey] * props.ingredients[ingKey]).toFixed(2)}</li>;
+    if(props.ingredients[ingKey]) return <li key={ingKey+idx}><span style={{textTransform:'capitalize',margin:'auto'}}>{ingKey}</span>   <span style={{margin:'auto'}}>{props.ingredients[ingKey]}</span>   <span style={{margin:'auto'}}>{(props.prices[ingKey] * props.ingredients[ingKey]).toFixed(2)}</span></li>;
+    return null;
   },'');
   return(
     <Aux>
@@ -18,6 +19,9 @@ const orderSummary = (props) => {
         {orderSummary}
       </ul>
       <strong>Total:{props.total.toFixed(2)}</strong>
+      <p>Continue to Checkout</p>
+      <button onClick={props.cancel}>CANCEL</button>
+      <button onClick={props.continue}>CONTINUE</button>
     </Aux>
   );
 };
