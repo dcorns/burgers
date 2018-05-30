@@ -10,9 +10,13 @@ import Aux from './Aux';
 
 const withErrorHandler = (WrappedComponent, axios) => {
   return class extends Component {
-    state = {
-      error: null
-    };
+    constructor(props,context){
+      super(props,context);
+      this.state = {
+        error: null
+      };
+      this.errorConfirmedHandler = this.errorConfirmedHandler.bind(this);
+    }
 
     componentDidMount() {
       console.log('[withErrorHandler] componentDidMount',this.state.error);
@@ -34,7 +38,7 @@ const withErrorHandler = (WrappedComponent, axios) => {
     render() {
       return (
         <Aux>
-          <Modal show={this.state.error}>
+          <Modal show={this.state.error} modalClosed={this.errorConfirmedHandler}>
             {this.state.error ? this.state.error.message : null}
           </Modal>
           <WrappedComponent{...this.props}/>
