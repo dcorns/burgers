@@ -17,16 +17,21 @@ const withErrorHandler = (WrappedComponent, axios) => {
         error: null
       };
       this.errorConfirmedHandler = this.errorConfirmedHandler.bind(this);
-      axios.interceptors.request.use(req => {
+      this.reqInterceptor = axios.interceptors.request.use(req => {
         this.setState({error: null});
         console.log('[interceptRequest]',this.state.error);
         return req;
       });
-      axios.interceptors.response.use(res => res, err => {
+      this.resInterceptor = axios.interceptors.response.use(res => res, err => {
         this.setState({error: err});
         console.log('[interceptResponse]',this.state.error);
       });
     }
+    //memory management, since the Interceptors are in the constructor they should only happen once for all instances, so I do not think it needs this memory management.
+    // componentwillUnmount(){
+    //   axios.interceptors.request.eject(this.reqInterceptor);
+    //   axios.interceptors.response.eject(this.resInterceptor);
+    // }
 //Course changed this to componentWillMount to execute axios.interceptors before child components' componentDidMount executes. Using componentDidMount is now a bad practice and will be depreciated. Instead I put the axios calls in the constructor to correct this.
 //     componentDidMount() {
 //       console.log('[withErrorHandler] componentDidMount',this.state.error);
