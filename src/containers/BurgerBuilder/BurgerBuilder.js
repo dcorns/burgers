@@ -10,6 +10,9 @@ import Burger from '../../components/Burger/Burger'
 import BuildControls from '../../components/Burger/BuildControls/BuildControls'
 import Modal from '../../components/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
+import config from '../../config';
+import postJson from '../../Services/ajax-post-json';
+import Spinner from '../../components/Spinner/Spinner';
 const INGREDIENT_PRICES = {
   salad: .1,
   bacon: .5,
@@ -26,6 +29,7 @@ class BurgerBuilder extends Component {
     },
     totalPrice: 1,
     showOrder:false,
+    loading: false,
   };
 
   adjustIngredientsHandler(type,amt){
@@ -48,16 +52,27 @@ class BurgerBuilder extends Component {
   }
 
   continueHandler(){
-    return alert('continue');
+    this.setState({loading:true});
+    postJson(config.baseUrl+'orders.json',{...this.state.ingredients,totalPrice:this.state.totalPrice})
+      .then((res)=> {
+        this.setState({loading:false});
+        console.log(res)
+      })
+      .catch(err=>{
+        this.setState({loading:false});
+        console.log(err)
+      });
   }
 
   render(){
+    let order = <OrderSummary ingredients={this.state.ingredients} purchaseCancelled={this.cancelHandler.bind(this)} purchaseContinued={this.continueHandler.bind(this)} prices={INGREDIENT_PRICES} total={this.state.totalPrice} cancel={this.cancelHandler.bind(this)} continue={this.continueHandler.bind(this)}/>;
+    if(this.state.loading) order = <Spinner/>;
    return(
      <Aux>
        <Burger ingredients={this.state.ingredients}/>
        <BuildControls ingredientAdjusted={this.adjustIngredientsHandler.bind(this)} ingredientTotals={this.state.ingredients} totalPrice={this.state.totalPrice} orderNow={this.orderNowHandler.bind(this)}/>
        <Modal show={this.state.showOrder} modalClosed={this.cancelHandler.bind(this)}>
-         <OrderSummary ingredients={this.state.ingredients} purchaseCancelled={this.cancelHandler.bind(this)} purchaseContinued={this.continueHandler.bind(this)} prices={INGREDIENT_PRICES} total={this.state.totalPrice} cancel={this.cancelHandler.bind(this)} continue={this.continueHandler.bind(this)}/>
+         {order}
        </Modal>
      </Aux>
      );
