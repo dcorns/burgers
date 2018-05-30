@@ -10,9 +10,9 @@ import Burger from '../../components/Burger/Burger'
 import BuildControls from '../../components/Burger/BuildControls/BuildControls'
 import Modal from '../../components/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
-import config from '../../config';
-import postJson from '../../Services/ajax-post-json';
 import Spinner from '../../components/Spinner/Spinner';
+import axiosOrders from '../../services/axios-orders';
+import withErrorHandling from '../../hoc/withErrorHandler';
 const INGREDIENT_PRICES = {
   salad: .1,
   bacon: .5,
@@ -53,13 +53,12 @@ class BurgerBuilder extends Component {
 
   continueHandler(){
     this.setState({loading:true});
-    postJson(config.baseUrl+'orders.json',{...this.state.ingredients,totalPrice:this.state.totalPrice})
+    axiosOrders.post('orders.json',{...this.state.ingredients,totalPrice:this.state.totalPrice})
       .then((res)=> {
-        this.setState({loading:false});
-        console.log(res)
+        this.setState({loading:false,showOrder:false});
       })
       .catch(err=>{
-        this.setState({loading:false});
+        this.setState({loading:false,showOrder:false});
         console.log(err)
       });
   }
@@ -78,4 +77,4 @@ class BurgerBuilder extends Component {
      );
   }
 }
-export default BurgerBuilder;
+export default withErrorHandling(BurgerBuilder,axiosOrders);
