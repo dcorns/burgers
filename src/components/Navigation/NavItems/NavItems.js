@@ -10,7 +10,8 @@ import classes from './NavItems.css';
 const navItems = (props) => (
   <ul className={classes.NavItems}>
     <NavItem link='/' active>Burger Builder</NavItem>
-    <NavItem link='/'>Checkout</NavItem>
+    {props.isAuthenticated?<NavItem link='/'>Orders</NavItem>:null}
+    <NavItem link='/'>Authenticate</NavItem>
   </ul>
 );
 export default navItems;
