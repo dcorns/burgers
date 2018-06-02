@@ -68,15 +68,10 @@ class BurgerBuilder extends Component {
   }
 
   continueHandler() {
-    this.setState({loading: true});
-    axiosOrders.post('orders.json', {...this.state.ingredients, totalPrice: this.state.totalPrice})
-      .then((res) => {
-        this.setState({loading: false, showOrder: false});
-      })
-      .catch(err => {
-        this.setState({loading: false, showOrder: false});
-        console.log(err)
-      });
+    const ingredients = Object.keys(this.state.ingredients).reduce((acc,ingd)=>{
+      return acc+ingd+'='+this.state.ingredients[ingd]+'&';
+    },'?');
+    this.props.history.push('/checkout/'+ingredients+'price='+this.state.totalPrice);
   }
 
   render() {
@@ -90,7 +85,7 @@ class BurgerBuilder extends Component {
       order = <OrderSummary ingredients={this.state.ingredients} purchaseCancelled={this.cancelHandler.bind(this)}
                             purchaseContinued={this.continueHandler.bind(this)} prices={INGREDIENT_PRICES}
                             total={this.state.totalPrice} cancel={this.cancelHandler.bind(this)}
-                            continue={this.continueHandler.bind(this)}/>;
+                            />;
     }
     if (this.state.loading) order = <Spinner/>;
     return (
