@@ -11,12 +11,15 @@ import NavItems from './NavItems'
 import NavItem from './NavItem/NavItem';
 configure({adapter: new Adapter()});
 describe('<NavItems>', () => {
+  let wrapper;
+  beforeEach(()=>{
+    wrapper=shallow(<NavItems/>);
+  });
   it('should render two navigation items if not authenticated', ()=>{
-    const wrapper = shallow(<NavItems/>);
     expect(wrapper.find(NavItem)).toHaveLength(2);
   });
   it('should render three navigation items if authenticated', ()=>{
-    const wrapper = shallow(<NavItems isAuthenticated/>);
+    wrapper.setProps({isAuthenticated:true});
     expect(wrapper.find(NavItem)).toHaveLength(3);
   });
 });
